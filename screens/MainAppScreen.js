@@ -3,6 +3,7 @@ import { Text, View, Button, Platform, StyleSheet } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/UI/HeaderButton";
 import colors from "../constants/colors";
+// will use this later as the auth screen with log in and register options
 
 const MainAppScreen = props => (
   <View style={styles.centered}>

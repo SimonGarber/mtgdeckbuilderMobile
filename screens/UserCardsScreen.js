@@ -1,12 +1,26 @@
 import React from "react";
-import { Text, View, StyleSheet, Platform } from "react-native";
+import { StyleSheet, Platform, FlatList } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/UI/HeaderButton";
-const UserCardsScreen = props => (
-  <View style={styles.screen}>
-    <Text>UserCardsScreen</Text>
-  </View>
-);
+import CardItem from "../components/CardItem";
+import { useSelector } from "react-redux";
+
+const UserCardsScreen = props => {
+  const cards = useSelector(state => state.cards.userCards);
+  return (
+    <FlatList
+      data={cards}
+      keyExtractor={item => item.id}
+      renderItem={({ item }) => (
+        <CardItem
+          image={item.imageUrl}
+          title={item.name}
+          description={item.description}
+        />
+      )}
+    />
+  );
+};
 UserCardsScreen.navigationOptions = navData => {
   return {
     headerTitle: "Your Cards",

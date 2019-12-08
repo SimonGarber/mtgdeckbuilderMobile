@@ -26,8 +26,7 @@ const defaultNavOptions = {
 };
 const SearchNavigator = createStackNavigator(
   {
-    CardSearch: CardSearchScreen,
-    SavedCards: UserCardsScreen
+    CardSearch: CardSearchScreen
   },
   {
     navigationOptions: {
@@ -46,10 +45,7 @@ const SearchNavigator = createStackNavigator(
 );
 
 const CardsNavigator = createStackNavigator(
-  {
-    SavedCards: UserCardsScreen,
-    CardSearch: CardSearchScreen
-  },
+  { SavedCards: UserCardsScreen },
   {
     navigationOptions: {
       drawerIcon: drawerConfig => (
@@ -83,8 +79,11 @@ const AppNavigator = createDrawerNavigator(
     }
   }
 );
-const MainNavigator = createSwitchNavigator({
-  StartUp: MainAppScreen,
-  App: AppNavigator
-});
+const MainNavigator = createSwitchNavigator(
+  {
+    Home: MainAppScreen,
+    App: AppNavigator
+  },
+  { initialRouteName: "Home" }
+);
 export default createAppContainer(MainNavigator);
