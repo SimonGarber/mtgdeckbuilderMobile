@@ -1,9 +1,11 @@
-import Card from "../../models/card";
+import jsonServer from "../../api/jsonServer";
+import store from "../store";
 
-export const SET_CARDS = "SET_CARDS";
+export const getApiData = () => {};
 
-export const fetchUserCards = () => {
-  return (dispatch, getState) => {
-    const cards = getState.cards.userCards;
+export const setUserData = dispatch => {
+  return async () => {
+    const response = await jsonServer.get("/searchResults");
+    dispatch({ type: "SET_USER_CARDS", payload: response.data });
   };
 };

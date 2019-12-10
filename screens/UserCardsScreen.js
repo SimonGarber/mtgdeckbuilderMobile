@@ -1,27 +1,20 @@
 import React from "react";
-import { StyleSheet, Platform, FlatList } from "react-native";
+import { StyleSheet, Platform, View, Button } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/UI/HeaderButton";
-import CardItem from "../components/CardItem";
-import { useSelector } from "react-redux";
+// import CardItem from "../components/CardItem";
 
 const UserCardsScreen = props => {
-  const cards = useSelector(state => state.cards.userCards);
   return (
-    <FlatList
-      data={cards}
-      keyExtractor={item => item.id}
-      renderItem={({ item }) => (
-        <CardItem
-          image={item.imageUrl}
-          title={item.name}
-          description={item.description}
-        />
-      )}
-    />
+    <View style={styles.screen}>
+      <View>
+        <Button title="Load Cards" />
+      </View>
+    </View>
   );
 };
-UserCardsScreen.navigationOptions = navData => {
+
+UserCardsScreen.navigationOptions = ({ navigation }) => {
   return {
     headerTitle: "Your Cards",
     headerLeft: (
@@ -30,7 +23,7 @@ UserCardsScreen.navigationOptions = navData => {
           title="Menu"
           iconName={Platform.OS === "android" ? "md-menu" : "ios-menu"}
           onPress={() => {
-            navData.navigation.toggleDrawer();
+            navigation.toggleDrawer();
           }}
         />
       </HeaderButtons>
@@ -44,4 +37,5 @@ const styles = StyleSheet.create({
     alignItems: "center"
   }
 });
+
 export default UserCardsScreen;

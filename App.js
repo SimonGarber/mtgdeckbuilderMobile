@@ -2,15 +2,7 @@ import React, { useState } from "react";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
 import NavigationContainer from "./navigation/NavigationContainer";
-import ReduxThunk from "redux-thunk";
-import cardsReducer from "./store/reducers/cards";
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import { Provider } from "react-redux";
-
-const rootReducer = combineReducers({
-  cards: cardsReducer
-});
-const store = createStore(rootReducer);
+import { Provider } from "./context/CardsContext";
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -33,7 +25,7 @@ export default function App() {
     );
   }
   return (
-    <Provider store={store}>
+    <Provider>
       <NavigationContainer />
     </Provider>
   );

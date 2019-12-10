@@ -1,6 +1,6 @@
 import Card from "../models/card";
 
-const CARDS = [
+export const CARDS = [
   new Card(
     "001",
     "u1",
@@ -16,5 +16,3 @@ const CARDS = [
     "Add 1 blue mana to your mana pool. Tapping this artifact can be played as an interrupt"
   )
 ];
-
-export default CARDS;

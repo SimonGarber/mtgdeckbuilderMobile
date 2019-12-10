@@ -8,6 +8,9 @@ import {
 import UserCardsScreen from "../screens/UserCardsScreen";
 import CardSearchScreen from "../screens/CardSearchScreen";
 import MainAppScreen from "../screens/MainAppScreen";
+import ShowScreen from "../screens/ShowScreen";
+import CreateCardScreen from "../screens/CreateCardScreen";
+import EditCardScreen from "../screens/EditCardScreen";
 import { Platform, View, SafeAreaView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import colors from "../constants/colors";
@@ -26,7 +29,10 @@ const defaultNavOptions = {
 };
 const SearchNavigator = createStackNavigator(
   {
-    CardSearch: CardSearchScreen
+    CardSearch: CardSearchScreen,
+    ShowCard: ShowScreen,
+    CreateCard: CreateCardScreen,
+    EditCard: EditCardScreen
   },
   {
     navigationOptions: {
@@ -45,7 +51,12 @@ const SearchNavigator = createStackNavigator(
 );
 
 const CardsNavigator = createStackNavigator(
-  { SavedCards: UserCardsScreen },
+  {
+    SavedCards: UserCardsScreen,
+    CreateCard: CreateCardScreen,
+    ShowCard: ShowScreen,
+    EditCard: EditCardScreen
+  },
   {
     navigationOptions: {
       drawerIcon: drawerConfig => (

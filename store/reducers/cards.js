@@ -1,13 +1,16 @@
-// import { SET_CARDS } from "../actions/cards";
-import CARDS from "../../data/test-data";
-import { SET_CARDS } from "../actions/cards";
 const initialState = {
-  userCards: CARDS
+  userData: [],
+  isUserLoading: false,
+  error: null
 };
 
-export default (state = initialState, action) => {
+const cardsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_CARDS:
+    case "SET_USER_CARDS":
+      return action.payload;
+
+    default:
+      return state;
   }
-  return state;
 };
+export default cardsReducer;
