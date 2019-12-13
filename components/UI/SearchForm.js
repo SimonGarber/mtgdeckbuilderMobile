@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -198,6 +198,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 20,
+    marginTop: 20,
     marginBottom: 5,
     marginLeft: 5
   }

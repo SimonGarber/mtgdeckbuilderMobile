@@ -38,9 +38,7 @@ const UserCardsScreen = ({ navigation }) => {
               onPress={() => navigation.navigate("ShowCard", { id: item.id })}
             >
               <View style={styles.row}>
-                <Text style={styles.title}>
-                  {item.name} - {item.id}
-                </Text>
+                <Text style={styles.title}>{item.name}</Text>
                 <TouchableOpacity onPress={() => deleteCard(item.id)}>
                   <Feather style={styles.icon} name="trash" />
                 </TouchableOpacity>

@@ -21,7 +21,7 @@ const ShowScreen = props => {
     props.navigation.navigate("SavedCards");
   };
   const saveCardToCollection = () => {
-    addCard(card.name, card.image);
+    addCard(card.name, card.image, card.id);
     props.navigation.navigate("SavedCards");
   };
   return (

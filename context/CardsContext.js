@@ -20,8 +20,8 @@ const cardReducer = (state, action) => {
 
 // action creators for CRUD operations
 const addCard = () => {
-  return async (name, image, callback) => {
-    await jsonServer.post("/usercards", { name, image });
+  return async (name, image, id, callback) => {
+    await jsonServer.post("/usercards", { name, image, id });
 
     if (callback) {
       callback();
