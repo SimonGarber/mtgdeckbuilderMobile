@@ -6,7 +6,7 @@ import HeaderButton from "../components/UI/HeaderButton";
 
 import CardItem from "../components/CardItem";
 const ShowScreen = props => {
-  const { state, addCard } = useContext(Context);
+  const { state, addCard, deleteCard } = useContext(Context);
 
   const UserCard = state.find(
     card => card.id === props.navigation.getParam("id")
@@ -16,16 +16,27 @@ const ShowScreen = props => {
     name: props.navigation.getParam("name"),
     image: props.navigation.getParam("image")
   };
+  const removeFromCollection = () => {
+    deleteCard(UserCard.id);
+    props.navigation.navigate("SavedCards");
+  };
+  const saveCardToCollection = () => {
+    addCard(card.name, card.image);
+    props.navigation.navigate("SavedCards");
+  };
   return (
     <View>
       <CardItem image={!UserCard ? card.image : UserCard.image} />
       {!UserCard ? (
         <Button
           title="Save Card to collection"
-          onPress={() => addCard(card.name, card.image)}
+          onPress={saveCardToCollection}
         />
       ) : (
-        <Button title="Remove Card from Collection" />
+        <Button
+          title="Remove Card from Collection"
+          onPress={removeFromCollection}
+        />
       )}
       <Button
         title="Return to Collection"

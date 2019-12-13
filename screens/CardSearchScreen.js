@@ -3,9 +3,8 @@ import { StyleSheet, Platform, View, Button } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/UI/HeaderButton";
 import SearchForm from "../components/UI/SearchForm";
-import { Context as SearchContext } from "../context/SearchContext";
+
 const CardSearchScreen = ({ navigation }) => {
-  const { state } = useContext(SearchContext);
   return (
     <View style={styles.screen}>
       <SearchForm navigation={navigation} />

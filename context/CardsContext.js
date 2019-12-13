@@ -57,6 +57,6 @@ const getCards = dispatch => {
 
 export const { Context, Provider } = createDataContext(
   cardReducer,
-  { addCard, deleteCard, editCard, getCards },
+  { addCard, deleteCard, getCards },
   []
 );

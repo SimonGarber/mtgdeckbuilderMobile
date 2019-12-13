@@ -9,6 +9,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import CardItem from "../CardItem";
+
 const SearchForm = ({ navigation }) => {
   const [cards, setCards] = useState([]);
   const [newQuery, setNewQuery] = useState({
@@ -20,16 +21,41 @@ const SearchForm = ({ navigation }) => {
     colorIdentity: ""
   });
 
-  const handleNameChange = text => {
+  const handleNameChange = nameText => {
     setNewQuery({
       ...newQuery,
-      name: text
+      name: nameText
     });
+  };
+  const handleSetChange = setText => {
+    setNewQuery({
+      ...newQuery,
+      set: setText
+    });
+  };
+  const handleTypeLineChange = typeLineText => {
+    setNewQuery({
+      ...newQuery,
+      typeLine: typeLineText
+    });
+  };
+  const handleOracleTextChange = oracleText => {
+    setNewQuery({
+      ...newQuery,
+      oracleText: oracleText
+    });
+  };
+  const handleReset = () => {
+    setCards([]);
   };
   async function handleSubmit() {
     try {
       const response = await fetch(
-        `https://mtgdeckbuilder-api.herokuapp.com/api/cards/?name=${newQuery.name}&set=${newQuery.set}&cmc=${newQuery.cmc}&typeLine=${newQuery.typeLine}&oracleText=${newQuery.oracleText}&colorIdentity=${newQuery.colorIdentity}`
+        `https://mtgdeckbuilder-api.herokuapp.com/api/cards/?name=${newQuery.name}&set=${newQuery.set}&cmc=${newQuery.cmc}&typeLine=${newQuery.typeLine}&oracleText=${newQuery.oracleText}&colorIdentity=${newQuery.colorIdentity}`,
+        {
+          method: "GET",
+          mode: "cors"
+        }
       );
       const myjson = await response.json();
       const obj = myjson.map(card => {
@@ -80,20 +106,60 @@ const SearchForm = ({ navigation }) => {
         colorIdentity: ""
       });
     } catch (error) {
-      console.log(error);
+      console.log("Error => ", error);
     }
   }
   return (
     <View style={styles.screen}>
-      <Text style={styles.label}>Card Search</Text>
-      <View>
-        <TextInput
-          style={styles.input}
-          value={newQuery.name}
-          onChangeText={text => handleNameChange(text)}
-        />
-      </View>
-      <Button title="Submit" onPress={() => handleSubmit()} />
+      {cards.length < 1 ? (
+        <Text style={styles.label}>Card Search</Text>
+      ) : (
+        <View>
+          <Text style={styles.label}>Search Results</Text>
+          <Button title="Reset Search" onPress={handleReset} />
+        </View>
+      )}
+      {cards.length < 1 ? (
+        <React.Fragment>
+          <View>
+            <TextInput
+              keyboardType="default"
+              autoCapitalize="none"
+              placeholder="Card Name"
+              style={styles.input}
+              value={newQuery.name}
+              onChangeText={nameText => handleNameChange(nameText)}
+            />
+            <TextInput
+              keyboardType="default"
+              autoCapitalize="none"
+              placeholder="set"
+              style={styles.input}
+              value={newQuery.set}
+              onChangeText={setText => handleSetChange(setText)}
+            />
+            <TextInput
+              keyboardType="default"
+              autoCapitalize="none"
+              placeholder="Type Line"
+              style={styles.input}
+              value={newQuery.typeLine}
+              onChangeText={typeLineText => handleTypeLineChange(typeLineText)}
+            />
+            <TextInput
+              keyboardType="default"
+              autoCapitalize="none"
+              placeholder="Oracle Text"
+              style={styles.input}
+              value={newQuery.oracleText}
+              onChangeText={text => handleOracleTextChange(text)}
+            />
+          </View>
+          <Button title="Submit" onPress={() => handleSubmit()} />
+        </React.Fragment>
+      ) : (
+        <Text></Text>
+      )}
       <FlatList
         data={cards}
         keyExtractor={card => card.id}
@@ -108,7 +174,7 @@ const SearchForm = ({ navigation }) => {
                 })
               }
             >
-              <CardItem image={item.image} />
+              <CardItem name={item.name} image={item.image} id={item.id} />
             </TouchableOpacity>
           );
         }}

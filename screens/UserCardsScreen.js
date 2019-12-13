@@ -60,9 +60,9 @@ UserCardsScreen.navigationOptions = ({ navigation }) => {
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="Create"
-          iconName={Platform.OS === "android" ? "md-brush" : "ios-brush"}
+          iconName={Platform.OS === "android" ? "md-home" : "ios-home"}
           onPress={() => {
-            navigation.navigate("CreateCard");
+            navigation.goBack();
           }}
         />
       </HeaderButtons>
