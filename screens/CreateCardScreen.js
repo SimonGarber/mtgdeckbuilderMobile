@@ -5,7 +5,6 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/UI/HeaderButton";
 import CardForm from "../components/UI/CardForm";
 const CreateCardScreen = ({ navigation }) => {
-  console.log(navigation);
   const { addCard } = useContext(Context);
   return (
     <CardForm
@@ -24,7 +23,7 @@ CreateCardScreen.navigationOptions = ({ navigation }) => {
           title="Home"
           iconName={Platform.OS === "android" ? "md-home" : "ios-home"}
           onPress={() => {
-            navigation.navigate("CardSearch");
+            navigation.navigate("SavedCards");
           }}
         />
       </HeaderButtons>

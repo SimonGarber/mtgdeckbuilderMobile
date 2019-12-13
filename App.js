@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
 import NavigationContainer from "./navigation/NavigationContainer";
-import { Provider } from "./context/CardsContext";
+import { Provider as CardsProvider } from "./context/CardsContext";
+import { Provider as SearchProvider } from "./context/SearchContext";
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -25,8 +26,10 @@ export default function App() {
     );
   }
   return (
-    <Provider>
-      <NavigationContainer />
-    </Provider>
+    <CardsProvider>
+      <SearchProvider>
+        <NavigationContainer />
+      </SearchProvider>
+    </CardsProvider>
   );
 }

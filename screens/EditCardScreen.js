@@ -4,6 +4,7 @@ import { Context } from "../context/CardsContext";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/UI/HeaderButton";
 import CardForm from "../components/UI/CardForm";
+
 const EditCardScreen = ({ navigation }) => {
   const id = navigation.getParam("id");
   const { state, editCard } = useContext(Context);
@@ -25,12 +26,10 @@ EditCardScreen.navigationOptions = ({ navigation }) => {
     headerRight: (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
-          title="Save Card"
-          iconName={
-            Platform.OS === "android" ? "md-checkmark" : "ios-checkmark"
-          }
+          title="Home"
+          iconName={Platform.OS === "android" ? "md-home" : "ios-home"}
           onPress={() => {
-            navigation.navigate("CardSearch");
+            navigation.navigate("SavedCards");
           }}
         />
       </HeaderButtons>

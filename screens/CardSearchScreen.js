@@ -1,71 +1,21 @@
-import React, { useContext, useEffect } from "react";
-import {
-  FlatList,
-  Text,
-  View,
-  StyleSheet,
-  Platform,
-  TouchableOpacity
-} from "react-native";
-import { Feather } from "@expo/vector-icons";
-import { Context } from "../context/CardsContext";
-
+import React, { useContext } from "react";
+import { StyleSheet, Platform, View, Button } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/UI/HeaderButton";
-
+import SearchForm from "../components/UI/SearchForm";
+import { Context as SearchContext } from "../context/SearchContext";
 const CardSearchScreen = ({ navigation }) => {
-  const { state, deleteCard, getCards } = useContext(Context);
-
-  useEffect(() => {
-    getCards();
-
-    const listener = navigation.addListener("didFocus", () => {
-      getCards();
-    });
-    return () => {
-      listener.remove();
-    };
-  }, []);
+  const { state } = useContext(SearchContext);
   return (
-    <View>
-      <FlatList
-        data={state}
-        keyExtractor={card => card.id}
-        renderItem={({ item }) => {
-          return (
-            <TouchableOpacity
-              onPress={() => navigation.navigate("ShowCard", { id: item.id })}
-            >
-              <View style={styles.row}>
-                <Text style={styles.title}>
-                  {item.name} - {item.id}
-                </Text>
-                <TouchableOpacity onPress={() => deleteCard(item.id)}>
-                  <Feather style={styles.icon} name="trash" />
-                </TouchableOpacity>
-              </View>
-            </TouchableOpacity>
-          );
-        }}
-      />
+    <View style={styles.screen}>
+      <SearchForm navigation={navigation} />
     </View>
   );
 };
 
 CardSearchScreen.navigationOptions = ({ navigation }) => {
   return {
-    headerTitle: "Your Search",
-    headerRight: (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          title="Create"
-          iconName={Platform.OS === "android" ? "md-brush" : "ios-brush"}
-          onPress={() => {
-            navigation.navigate("CreateCard");
-          }}
-        />
-      </HeaderButtons>
-    ),
+    headerTitle: "Find Cards",
     headerLeft: (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
@@ -80,20 +30,10 @@ CardSearchScreen.navigationOptions = ({ navigation }) => {
   };
 };
 const styles = StyleSheet.create({
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 20,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    paddingHorizontal: 10,
-    borderColor: "gray"
-  },
-  title: {
-    fontSize: 18
-  },
-  icon: {
-    fontSize: 24
+  screen: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
 

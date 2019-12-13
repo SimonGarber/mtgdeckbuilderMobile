@@ -1,18 +1,36 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet, Platform } from "react-native";
+import { View, Text, StyleSheet, Platform, Button } from "react-native";
 import { Context } from "../context/CardsContext";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/UI/HeaderButton";
 
-const ShowScreen = ({ navigation }) => {
-  console.log(navigation);
-  const { state } = useContext(Context);
+import CardItem from "../components/CardItem";
+const ShowScreen = props => {
+  const { state, addCard } = useContext(Context);
 
-  const card = state.find(card => card.id === navigation.getParam("id"));
+  const UserCard = state.find(
+    card => card.id === props.navigation.getParam("id")
+  );
+  const card = {
+    id: props.navigation.getParam("id"),
+    name: props.navigation.getParam("name"),
+    image: props.navigation.getParam("image")
+  };
   return (
     <View>
-      <Text>{card.name}</Text>
-      <Text>{card.content}</Text>
+      <CardItem image={!UserCard ? card.image : UserCard.image} />
+      {!UserCard ? (
+        <Button
+          title="Save Card to collection"
+          onPress={() => addCard(card.name, card.image)}
+        />
+      ) : (
+        <Button title="Remove Card from Collection" />
+      )}
+      <Button
+        title="Return to Collection"
+        onPress={() => props.navigation.navigate("SavedCards")}
+      />
     </View>
   );
 };
@@ -24,14 +42,8 @@ ShowScreen.navigationOptions = ({ navigation }) => {
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="Edit"
-          iconName={Platform.OS === "android" ? "md-build" : "ios-build"}
-          onPress={() => {
-            navigation.navigate("EditCard", {
-              id: navigation.getParam("id"),
-              name: navigation.getParam("name"),
-              content: navigation.getParam("content")
-            });
-          }}
+          iconName={Platform.OS === "android" ? "md-home" : "ios-home"}
+          onPress={() => navigation.navigate("CardSearch")}
         />
       </HeaderButtons>
     ),

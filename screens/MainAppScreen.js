@@ -10,15 +10,15 @@ const MainAppScreen = props => {
     <View style={styles.centered}>
       <Text>MainAppScreen</Text>
       <Button
-        title="Search for cards"
-        onPress={() => {
-          props.navigation.navigate("CardSearch");
-        }}
-      />
-      <Button
         title="View your collection"
         onPress={() => {
           props.navigation.navigate("SavedCards");
+        }}
+      />
+      <Button
+        title="Search for cards"
+        onPress={() => {
+          props.navigation.navigate("CardSearch");
         }}
       />
     </View>

@@ -18,9 +18,10 @@ const cardReducer = (state, action) => {
   }
 };
 
+// action creators for CRUD operations
 const addCard = () => {
-  return async (name, content, callback) => {
-    await jsonServer.post("/searchResults", { name, content });
+  return async (name, image, callback) => {
+    await jsonServer.post("/usercards", { name, image });
 
     if (callback) {
       callback();
@@ -30,14 +31,14 @@ const addCard = () => {
 
 const deleteCard = dispatch => {
   return async id => {
-    await jsonServer.delete(`/searchresults/${id}`);
+    await jsonServer.delete(`/usercards/${id}`);
     dispatch({ type: "delete_card", payload: id });
   };
 };
 
 const editCard = dispatch => {
   return async (id, name, content, callback) => {
-    await jsonServer.put(`/searchresults/${id}`, { name, content });
+    await jsonServer.put(`/usercards/${id}`, { name, content });
     dispatch({
       type: "edit_card",
       payload: { id, name, content }
@@ -49,7 +50,7 @@ const editCard = dispatch => {
 };
 const getCards = dispatch => {
   return async () => {
-    const response = await jsonServer.get("/searchResults");
+    const response = await jsonServer.get("/usercards");
     dispatch({ type: "get_cards", payload: response.data });
   };
 };

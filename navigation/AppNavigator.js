@@ -27,9 +27,9 @@ const defaultNavOptions = {
   },
   headerTintColor: Platform.OS === "android" ? "white" : colors.primary
 };
-const SearchNavigator = createStackNavigator(
+const CardsNavigator = createStackNavigator(
   {
-    CardSearch: CardSearchScreen,
+    SavedCards: UserCardsScreen,
     ShowCard: ShowScreen,
     CreateCard: CreateCardScreen,
     EditCard: EditCardScreen
@@ -50,12 +50,13 @@ const SearchNavigator = createStackNavigator(
   }
 );
 
-const CardsNavigator = createStackNavigator(
+const SearchNavigator = createStackNavigator(
   {
-    SavedCards: UserCardsScreen,
+    CardSearch: CardSearchScreen,
     CreateCard: CreateCardScreen,
     ShowCard: ShowScreen,
-    EditCard: EditCardScreen
+    EditCard: EditCardScreen,
+    SavedCards: UserCardsScreen
   },
   {
     navigationOptions: {
@@ -72,8 +73,8 @@ const CardsNavigator = createStackNavigator(
 );
 const AppNavigator = createDrawerNavigator(
   {
-    Search: SearchNavigator,
-    Cards: CardsNavigator
+    Collection: CardsNavigator,
+    Search: SearchNavigator
   },
   {
     contentOptions: {
