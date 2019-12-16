@@ -1,53 +1,40 @@
-import React, { useContext, useEffect } from "react";
-import {
-  FlatList,
-  Text,
-  View,
-  StyleSheet,
-  Platform,
-  TouchableOpacity
-} from "react-native";
-import { Feather } from "@expo/vector-icons";
-import { Context as CardsContext } from "../context/CardsContext";
+import React, { useEffect, useContext } from "react";
+import { StyleSheet, Platform, Button } from "react-native";
+// import { Feather } from "@expo/vector-icons";
+import { Context as UserCardsContext } from "../context/userCardsContext";
+// import { Context as AuthContext } from "../context/AuthContext";
 
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/UI/HeaderButton";
+import { NavigationEvents } from "react-navigation";
 
 const UserCardsScreen = ({ navigation }) => {
-  const { state, deleteCard, getCards } = useContext(CardsContext);
+  const { state, getCards } = useContext(UserCardsContext);
 
   useEffect(() => {
     getCards();
-    //allows for refetching the data from the api once an CRUD action has been performed
-    const listener = navigation.addListener("didFocus", () => {
-      getCards();
-    });
-    return () => {
-      // clean up function to remove any active listeners when the component becomes unmounted
-      listener.remove();
-    };
   }, []);
+
   return (
-    <View>
-      <FlatList
-        data={state}
-        keyExtractor={card => card.id.toString()}
-        renderItem={({ item }) => {
-          return (
-            <TouchableOpacity
-              onPress={() => navigation.navigate("ShowCard", { id: item.id })}
-            >
-              <View style={styles.row}>
-                <Text style={styles.title}>{item.name}</Text>
-                <TouchableOpacity onPress={() => deleteCard(item.id)}>
-                  <Feather style={styles.icon} name="trash" />
-                </TouchableOpacity>
-              </View>
-            </TouchableOpacity>
-          );
-        }}
-      />
-    </View>
+    <React.Fragment>
+      <NavigationEvents onWillFocus={() => getCards()} />
+      {state.map(card => {
+        return (
+          <Button
+            title={`${card.name}`}
+            key={card.id}
+            onPress={() =>
+              navigation.navigate("ShowUserCard", {
+                id: card.id,
+                userId: card.userId,
+                image: card.image,
+                name: card.name
+              })
+            }
+          />
+        );
+      })}
+    </React.Fragment>
   );
 };
 

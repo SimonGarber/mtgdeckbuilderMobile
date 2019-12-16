@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
-import NavigationContainer from "./navigation/NavigationContainer";
-import { Provider as CardsProvider } from "./context/CardsContext";
-import { Provider as SearchProvider } from "./context/SearchContext";
+import App from "./navigation/AppNavigator";
+// import { Provider as CardsProvider } from "./context/CardsContext";
+
+import { Provider as AuthProvider } from "./context/AuthContext";
+import { Provider as UserCardsProvider } from "./context/userCardsContext";
+import { setNavigator } from "./navigationRef";
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -12,7 +15,7 @@ const fetchFonts = () => {
   });
 };
 
-export default function App() {
+export default () => {
   const [fontLoaded, setFontLoaded] = useState(false);
 
   if (!fontLoaded) {
@@ -26,10 +29,14 @@ export default function App() {
     );
   }
   return (
-    <CardsProvider>
-      <SearchProvider>
-        <NavigationContainer />
-      </SearchProvider>
-    </CardsProvider>
+    <AuthProvider>
+      <UserCardsProvider>
+        <App
+          ref={navigator => {
+            setNavigator(navigator);
+          }}
+        />
+      </UserCardsProvider>
+    </AuthProvider>
   );
-}
+};

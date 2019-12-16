@@ -7,10 +7,12 @@ import {
 } from "react-navigation-drawer";
 import UserCardsScreen from "../screens/UserCardsScreen";
 import CardSearchScreen from "../screens/CardSearchScreen";
-import MainAppScreen from "../screens/MainAppScreen";
-import ShowScreen from "../screens/ShowScreen";
-import CreateCardScreen from "../screens/CreateCardScreen";
-import EditCardScreen from "../screens/EditCardScreen";
+import SignUpScreen from "../screens/SignUpScreen";
+import SignInScreen from "../screens/SignInScreen";
+import ShowUserCardScreen from "../screens/ShowUserCardScreen";
+import ShowSearchCardScreen from "../screens/ShowSearchCardScreen";
+import LoadingScreen from "../screens/LoadingScreen";
+import AccountScreen from "../screens/AccountScreen";
 import { Platform, View, SafeAreaView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import colors from "../constants/colors";
@@ -30,9 +32,7 @@ const defaultNavOptions = {
 const CardsNavigator = createStackNavigator(
   {
     SavedCards: UserCardsScreen,
-    ShowCard: ShowScreen,
-    CreateCard: CreateCardScreen,
-    EditCard: EditCardScreen
+    ShowUserCard: ShowUserCardScreen
   },
   {
     navigationOptions: {
@@ -53,9 +53,7 @@ const CardsNavigator = createStackNavigator(
 const SearchNavigator = createStackNavigator(
   {
     CardSearch: CardSearchScreen,
-    CreateCard: CreateCardScreen,
-    ShowCard: ShowScreen,
-    EditCard: EditCardScreen,
+    ShowSearchCard: ShowSearchCardScreen,
     SavedCards: UserCardsScreen
   },
   {
@@ -71,10 +69,11 @@ const SearchNavigator = createStackNavigator(
     defaultNavigationOptions: defaultNavOptions
   }
 );
-const AppNavigator = createDrawerNavigator(
+const drawerNavigator = createDrawerNavigator(
   {
     Collection: CardsNavigator,
-    Search: SearchNavigator
+    Search: SearchNavigator,
+    Account: AccountScreen
   },
   {
     contentOptions: {
@@ -91,11 +90,14 @@ const AppNavigator = createDrawerNavigator(
     }
   }
 );
-const MainNavigator = createSwitchNavigator(
-  {
-    Home: MainAppScreen,
-    App: AppNavigator
-  },
-  { initialRouteName: "Home" }
-);
-export default createAppContainer(MainNavigator);
+const switchNavigator = createSwitchNavigator({
+  Loading: LoadingScreen,
+  loginFlow: createStackNavigator({
+    SignUp: SignUpScreen,
+    SignIn: SignInScreen
+  }),
+  mainFlow: drawerNavigator
+});
+const App = createAppContainer(switchNavigator);
+
+export default App;

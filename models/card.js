@@ -1,10 +1,9 @@
 class Card {
-  constructor(id, ownerId, name, imageUrl, description) {
+  constructor(id, userId, name, image) {
     this.id = id;
-    this.ownerId = ownerId;
+    this.userId = userId;
     this.name = name;
-    this.imageUrl = imageUrl;
-    this.description = description;
+    this.image = image;
   }
 }
 

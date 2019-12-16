@@ -2,10 +2,11 @@ import React from "react";
 import { View, Text, Image, StyleSheet, Button } from "react-native";
 // import Card from "../components/UI/Card";
 
-const CardItem = props => {
+const CardItem = ({ navigation, image, name, id, userId, styleProps }) => {
   return (
-    <View style={styles.card}>
-      <Image style={styles.image} source={{ uri: props.image }} />
+    <View style={{ ...styles.card, styleProps }}>
+      <Image style={styles.image} source={{ uri: image }} />
+      <Text>{userId}</Text>
     </View>
   );
 };

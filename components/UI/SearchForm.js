@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -9,8 +9,9 @@ import {
   TouchableOpacity
 } from "react-native";
 import CardItem from "../CardItem";
-
+import { Context as AuthContext } from "../../context/AuthContext";
 const SearchForm = ({ navigation }) => {
+  const { state } = useContext(AuthContext);
   const [cards, setCards] = useState([]);
   const [newQuery, setNewQuery] = useState({
     name: "",
@@ -48,20 +49,17 @@ const SearchForm = ({ navigation }) => {
   const handleReset = () => {
     setCards([]);
   };
-  async function handleSubmit() {
+  const handleSubmit = async () => {
     try {
       const response = await fetch(
-        `https://mtgdeckbuilder-api.herokuapp.com/api/cards/?name=${newQuery.name}&set=${newQuery.set}&cmc=${newQuery.cmc}&typeLine=${newQuery.typeLine}&oracleText=${newQuery.oracleText}&colorIdentity=${newQuery.colorIdentity}`,
-        {
-          method: "GET",
-          mode: "cors"
-        }
+        `https://mtgdeckbuilder-api.herokuapp.com/api/cards/?name=${newQuery.name}&set=${newQuery.set}&cmc=${newQuery.cmc}&typeLine=${newQuery.typeLine}&oracleText=${newQuery.oracleText}&colorIdentity=${newQuery.colorIdentity}`
       );
       const myjson = await response.json();
       const obj = myjson.map(card => {
         if (card.image_uris) {
           return {
             id: card.id,
+            userId: state.userId,
             image2: card.image_uris.border_crop
               ? card.image_uris.border_crop
               : null,
@@ -108,7 +106,7 @@ const SearchForm = ({ navigation }) => {
     } catch (error) {
       console.log("Error => ", error);
     }
-  }
+  };
   return (
     <View style={styles.screen}>
       {cards.length < 1 ? (
@@ -155,29 +153,35 @@ const SearchForm = ({ navigation }) => {
               onChangeText={text => handleOracleTextChange(text)}
             />
           </View>
-          <Button title="Submit" onPress={() => handleSubmit()} />
+          <Button title="Submit" onPress={handleSubmit} />
         </React.Fragment>
       ) : (
         <Text></Text>
       )}
       <FlatList
         data={cards}
-        keyExtractor={card => card.id}
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate("ShowCard", {
+                navigation.navigate("ShowSearchCard", {
                   id: item.id,
-                  name: item.name,
-                  image: item.image
+                  userId: item.userId,
+                  image: item.image,
+                  name: item.name
                 })
               }
             >
-              <CardItem name={item.name} image={item.image} id={item.id} />
+              <CardItem
+                name={item.name}
+                image={item.image}
+                id={item.id}
+                userId={item.userId}
+              />
             </TouchableOpacity>
           );
         }}
+        keyExtractor={item => item.id}
       />
     </View>
   );
