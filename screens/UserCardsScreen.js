@@ -47,18 +47,7 @@ UserCardsScreen.navigationOptions = ({ navigation }) => {
           title="Create"
           iconName={Platform.OS === "android" ? "md-home" : "ios-home"}
           onPress={() => {
-            navigation.goBack();
-          }}
-        />
-      </HeaderButtons>
-    ),
-    headerLeft: (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          title="Menu"
-          iconName={Platform.OS === "android" ? "md-menu" : "ios-menu"}
-          onPress={() => {
-            navigation.toggleDrawer();
+            navigation.navigate("AccountScreen");
           }}
         />
       </HeaderButtons>

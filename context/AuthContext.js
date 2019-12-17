@@ -26,7 +26,7 @@ const tryLocalSignin = dispatch => async () => {
   const token = await AsyncStorage.getItem("token");
   if (token) {
     dispatch({ type: "signin", payload: token });
-    navigate("Search");
+    navigate("CardSearch");
   } else {
     navigate("SignIn");
   }
@@ -60,7 +60,7 @@ const signIn = dispatch => async ({ email, password }) => {
       payload: { token: response.data.token, userId: response.data.userId }
     });
 
-    navigate("Search");
+    navigate("CardSearch");
   } catch (err) {
     dispatch({
       type: "add_error",

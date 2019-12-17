@@ -46,6 +46,18 @@ const SearchForm = ({ navigation }) => {
       oracleText: oracleText
     });
   };
+  const handleColorIdentityChange = colorIdentityText => {
+    setNewQuery({
+      ...newQuery,
+      colorIdentity: colorIdentityText
+    });
+  };
+  const handleCmcChange = cmcText => {
+    setNewQuery({
+      ...newQuery,
+      cmc: cmcText
+    });
+  };
   const handleReset = () => {
     setCards([]);
   };
@@ -96,6 +108,7 @@ const SearchForm = ({ navigation }) => {
 
       setCards(obj);
       setNewQuery({
+        ...newQuery,
         name: "",
         set: "",
         cmc: "",
@@ -113,7 +126,6 @@ const SearchForm = ({ navigation }) => {
         <Text style={styles.label}>Card Search</Text>
       ) : (
         <View>
-          <Text style={styles.label}>Search Results</Text>
           <Button title="Reset Search" onPress={handleReset} />
         </View>
       )}
@@ -152,11 +164,29 @@ const SearchForm = ({ navigation }) => {
               value={newQuery.oracleText}
               onChangeText={text => handleOracleTextChange(text)}
             />
+            <TextInput
+              keyboardType="default"
+              autoCapitalize="none"
+              placeholder="Color Identity"
+              style={styles.input}
+              value={newQuery.colorIdentity}
+              onChangeText={text => handleColorIdentityChange(text)}
+            />
+            <TextInput
+              keyboardType="default"
+              autoCapitalize="none"
+              placeholder="cmc"
+              style={styles.input}
+              value={newQuery.cmc}
+              onChangeText={text => handleCmcChange(text)}
+            />
           </View>
           <Button title="Submit" onPress={handleSubmit} />
         </React.Fragment>
       ) : (
-        <Text></Text>
+        <Text style={{ textAlign: "center" }}>
+          Number of Results:{cards.length}
+        </Text>
       )}
       <FlatList
         data={cards}

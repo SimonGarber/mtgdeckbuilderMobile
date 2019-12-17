@@ -6,7 +6,6 @@ const CardItem = ({ navigation, image, name, id, userId, styleProps }) => {
   return (
     <View style={{ ...styles.card, styleProps }}>
       <Image style={styles.image} source={{ uri: image }} />
-      <Text>{userId}</Text>
     </View>
   );
 };

@@ -1,5 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
-import { View, StyleSheet, Platform, Button, Image } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Platform,
+  Button,
+  Image,
+  SafeAreaView
+} from "react-native";
 import CardItem from "../components/CardItem";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/UI/HeaderButton";
@@ -21,30 +28,35 @@ const ShowUserCardScreen = ({ navigation }) => {
 
   return (
     <React.Fragment>
-      <View style={styles.card}>
-        <Image style={styles.image} source={{ uri: image }} />
-        <View style={styles.buttonContainer}>
-          <Button
-            title="Go Back"
-            onPress={() => {
-              navigation.navigate("SavedCards");
-            }}
-          />
+      <SafeAreaView>
+        <View style={styles.card}>
+          <Image style={styles.image} source={{ uri: image }} />
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Go Back"
+              onPress={() => {
+                navigation.navigate("SavedCards");
+              }}
+            />
+
+            <Button
+              title="Remove Card from Collection"
+              onPress={() => setTimeout(transition, 2000, removeCardHandler)}
+            />
+            <Button
+              title="Add to Deck"
+              onPress={() => navigation.setParams({ name: "new Title" })}
+            />
+          </View>
         </View>
-        <View style={styles.buttonContainer}>
-          <Button
-            title="Remove Card from Collection"
-            onPress={() => setTimeout(transition, 2000, removeCardHandler)}
-          />
-        </View>
-      </View>
+      </SafeAreaView>
     </React.Fragment>
   );
 };
 
 ShowUserCardScreen.navigationOptions = ({ navigation }) => {
   return {
-    headerTitle: "Card",
+    headerTitle: navigation.getParam("name"),
     headerRight: (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
