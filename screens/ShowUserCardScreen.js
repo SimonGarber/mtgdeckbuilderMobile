@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -7,42 +7,29 @@ import {
   Image,
   SafeAreaView
 } from "react-native";
-import CardItem from "../components/CardItem";
+import { NavigationEvents } from "react-navigation";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/UI/HeaderButton";
 import { Context as userCardsContext } from "../context/userCardsContext";
+import { Context as AuthContext } from "../context/AuthContext";
 
 const ShowUserCardScreen = ({ navigation }) => {
-  const { state, removeCard } = useContext(userCardsContext);
-  // All the Card data that is passed into this component
-  const id = navigation.getParam("id");
-  const name = navigation.getParam("name");
+  const { getCards } = useContext(userCardsContext);
+  const { state } = useContext(AuthContext);
+  const userId = state.userId;
   const image = navigation.getParam("image");
-  const userId = navigation.getParam("userId");
-  const removeCardHandler = () => {
-    removeCard({ id });
-  };
-  const transition = () => {
-    navigation.navigate("SavedCards");
-  };
+
+  useEffect(() => {
+    getCards({ userId });
+  }, []);
 
   return (
     <React.Fragment>
+      <NavigationEvents onWillFocus={() => getCards({ userId })} />
       <SafeAreaView>
         <View style={styles.card}>
           <Image style={styles.image} source={{ uri: image }} />
           <View style={styles.buttonContainer}>
-            <Button
-              title="Go Back"
-              onPress={() => {
-                navigation.navigate("SavedCards");
-              }}
-            />
-
-            <Button
-              title="Remove Card from Collection"
-              onPress={() => setTimeout(transition, 2000, removeCardHandler)}
-            />
             <Button
               title="Add to Deck"
               onPress={() => navigation.setParams({ name: "new Title" })}
@@ -63,17 +50,6 @@ ShowUserCardScreen.navigationOptions = ({ navigation }) => {
           title="Edit"
           iconName={Platform.OS === "android" ? "md-home" : "ios-home"}
           onPress={() => navigation.navigate("CardSearch")}
-        />
-      </HeaderButtons>
-    ),
-    headerLeft: (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          title="Menu"
-          iconName={Platform.OS === "android" ? "md-menu" : "ios-menu"}
-          onPress={() => {
-            navigation.toggleDrawer();
-          }}
         />
       </HeaderButtons>
     )

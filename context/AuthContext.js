@@ -23,10 +23,11 @@ const authReducer = (state, action) => {
 };
 
 const tryLocalSignin = dispatch => async () => {
-  const token = await AsyncStorage.getItem("token");
+  let token = await AsyncStorage.getItem("token");
+  let userId = await AsyncStorage.getItem("userId");
   if (token) {
-    dispatch({ type: "signin", payload: token });
-    navigate("CardSearch");
+    dispatch({ type: "signin", payload: { token: token, userId: userId } });
+    navigate("SavedCards");
   } else {
     navigate("SignIn");
   }
@@ -39,9 +40,13 @@ const signUp = dispatch => async ({ email, password }) => {
   try {
     const response = await mtgApi.post("/signup", { email, password });
     await AsyncStorage.setItem("token", response.data.token);
-    dispatch({ type: "signin", payload: response.data.token });
+    await AsyncStorage.setItem("userId", response.data.userId);
+    dispatch({
+      type: "signin",
+      payload: { token: response.data.token, userId: response.data.userId }
+    });
 
-    navigate("Search");
+    navigate("CardSearch");
   } catch (err) {
     dispatch({
       type: "add_error",
@@ -54,13 +59,13 @@ const signIn = dispatch => async ({ email, password }) => {
   try {
     const response = await mtgApi.post("/signin", { email, password });
     await AsyncStorage.setItem("token", response.data.token);
-
+    await AsyncStorage.setItem("userId", response.data.userId);
     dispatch({
       type: "signin",
       payload: { token: response.data.token, userId: response.data.userId }
     });
 
-    navigate("CardSearch");
+    navigate("SavedCards");
   } catch (err) {
     dispatch({
       type: "add_error",
@@ -71,6 +76,7 @@ const signIn = dispatch => async ({ email, password }) => {
 
 const signOut = dispatch => async () => {
   await AsyncStorage.removeItem("token");
+  await AsyncStorage.removeItem("userId");
   dispatch({ type: "signout" });
   navigate("SignIn");
 };

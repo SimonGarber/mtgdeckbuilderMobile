@@ -92,8 +92,8 @@ import AccountScreen from "../screens/AccountScreen";
 //   }
 // );
 const switchNavigator = createSwitchNavigator({
-  // Loading: LoadingScreen,
   loginFlow: createStackNavigator({
+    Loading: LoadingScreen,
     SignUp: SignUpScreen,
     SignIn: SignInScreen
   }),

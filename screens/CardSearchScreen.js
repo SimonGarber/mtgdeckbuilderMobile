@@ -1,15 +1,10 @@
-import React, { useContext } from "react";
-import { StyleSheet, Platform, View } from "react-native";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import HeaderButton from "../components/UI/HeaderButton";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+
 import SearchForm from "../components/UI/SearchForm";
-import { Context as AuthContext } from "../context/AuthContext";
-// import { Context as CardsContext } from "../context/CardsContext";
+// import { Context as AuthContext } from "../context/AuthContext";
+// import { Context as userCardsContext } from "../context/userCardsContext";
 const CardSearchScreen = ({ navigation }) => {
-  const { state } = useContext(AuthContext);
-
-  console.log("Auth State On Signin =>", state);
-
   return (
     <View style={styles.screen}>
       <SearchForm navigation={navigation} />
@@ -19,18 +14,7 @@ const CardSearchScreen = ({ navigation }) => {
 
 CardSearchScreen.navigationOptions = ({ navigation }) => {
   return {
-    headerTitle: "Find Cards",
-    headerLeft: (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          title="Menu"
-          iconName={Platform.OS === "android" ? "md-menu" : "ios-menu"}
-          onPress={() => {
-            navigation.toggleDrawer();
-          }}
-        />
-      </HeaderButtons>
-    )
+    headerTitle: "Find Cards"
   };
 };
 const styles = StyleSheet.create({

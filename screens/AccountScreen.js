@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Context as AuthContext } from "../context/AuthContext";
+import { Context as UserCardsContext } from "../context/userCardsContext";
 import { View, Text, StyleSheet, Button } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/UI/HeaderButton";

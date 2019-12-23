@@ -10,8 +10,11 @@ import {
 } from "react-native";
 import CardItem from "../CardItem";
 import { Context as AuthContext } from "../../context/AuthContext";
+import { Context as UserCardsContext } from "../../context/userCardsContext";
+import jsonServer from "../../api/jsonServer";
 const SearchForm = ({ navigation }) => {
   const { state } = useContext(AuthContext);
+  const { getSearchCard } = useContext(UserCardsContext);
   const [cards, setCards] = useState([]);
   const [newQuery, setNewQuery] = useState({
     name: "",
@@ -21,6 +24,7 @@ const SearchForm = ({ navigation }) => {
     oracleText: "",
     colorIdentity: ""
   });
+  const userId = state.userId;
 
   const handleNameChange = nameText => {
     setNewQuery({
@@ -63,10 +67,12 @@ const SearchForm = ({ navigation }) => {
   };
   const handleSubmit = async () => {
     try {
-      const response = await fetch(
-        `https://mtgdeckbuilder-api.herokuapp.com/api/cards/?name=${newQuery.name}&set=${newQuery.set}&cmc=${newQuery.cmc}&typeLine=${newQuery.typeLine}&oracleText=${newQuery.oracleText}&colorIdentity=${newQuery.colorIdentity}`
+      const response = await jsonServer.get(
+        `/api/v1/query/?name=${newQuery.name}&set=${newQuery.set}&cmc=${newQuery.cmc}&typeLine=${newQuery.typeLine}&oracleText=${newQuery.oracleText}&colorIdentity=${newQuery.colorIdentity}`
       );
-      const myjson = await response.json();
+
+      const myjson = await response.data.data;
+
       const obj = myjson.map(card => {
         if (card.image_uris) {
           return {
@@ -117,7 +123,7 @@ const SearchForm = ({ navigation }) => {
         colorIdentity: ""
       });
     } catch (error) {
-      console.log("Error => ", error);
+      console.log("Error in Search Query => ", error.message);
     }
   };
   return (
@@ -192,16 +198,7 @@ const SearchForm = ({ navigation }) => {
         data={cards}
         renderItem={({ item }) => {
           return (
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("ShowSearchCard", {
-                  id: item.id,
-                  userId: item.userId,
-                  image: item.image,
-                  name: item.name
-                })
-              }
-            >
+            <TouchableOpacity onPress={() => getSearchCard({ item })}>
               <CardItem
                 name={item.name}
                 image={item.image}
